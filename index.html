@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <html>
-    
+
 <head>
     <title>SegWit Paper Wallet</title>
     <meta name="description" content="Create Segregated Witness (SegWit) Addresses in your browser that can be ran offline to create paper wallets or bulk addresses.">
@@ -46,27 +46,25 @@
         box-shadow: inset 0 6px 6px -6px rgba(0, 0, 0, 1);
     }
 </style>
-    <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/readable/bootstrap.min.css" rel="stylesheet" integrity="sha384-Li5uVfY2bSkD3WQyiHX8tJd0aMF91rMrQP5aAewFkHkVSTT2TmD2PehZeMmm7aiL" crossorigin="anonymous">
-<script
-  src="https://code.jquery.com/jquery-3.2.1.min.js"
-  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-  crossorigin="anonymous"></script>
-    <script src="js/instascan.min.js"></script>
+  <link href="css/bootstrap-3.3.7-offline.css" rel="stylesheet">
+  <link href="css/offline.css" rel="stylesheet" title="Offline">
+  <script src="js/instascan.min.js"></script>
+  <script src="js/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="></script>
 </head>
 <body>
-  <h1>SegWit Paper Wallet</h1><br>   
-  <div class="well">Segwitaddress.org is an <a href="https://github.com/coinables/segwitaddress"><span class="label label-primary">OPEN SOURCE</span></a> bitcoin paper wallet generator that utilizes Segregated Witness (SegWit) Pay To Witness Public Key Hash (P2WPKH) addresses and transactions. Segwitaddress.org uses the <a href="https://github.com/bitcoinjs/bitcoinjs-lib"><span class="label label-success">BitcoinJS</span></a> library and was initially built from BIP32JP's SegWit repo (<a href="https://github.com/bip32JP/bip32JP.github.io/tree/master/segwit">https://github.com/bip32JP/bip32JP.github.io/tree/master/segwit</a>).</div> 
+  <h1>SegWit Paper Wallet</h1><br>
+  <div class="well">Segwitaddress.org is an <a href="https://github.com/coinables/segwitaddress"><span class="label label-primary">OPEN SOURCE</span></a> bitcoin paper wallet generator that utilizes Segregated Witness (SegWit) Pay To Witness Public Key Hash (P2WPKH) addresses and transactions. Segwitaddress.org uses the <a href="https://github.com/bitcoinjs/bitcoinjs-lib"><span class="label label-success">BitcoinJS</span></a> library and was initially built from BIP32JP's SegWit repo (<a href="https://github.com/bip32JP/bip32JP.github.io/tree/master/segwit">https://github.com/bip32JP/bip32JP.github.io/tree/master/segwit</a>).</div>
     <br>
     <a href="#entropyRef"><button id="entropyRef" onClick="return btnCreate();"  class="btn btn-primary">Generate New SegWit Address</button></a><br>
-    
-    
+
+
         <canvas id="entropyCanvas" width="800" height="200" style="border: 1px solid black;"></canvas>
         <div class="progress progress-striped">
         <div class="progress-bar progress-bar-info" style="width: 0%"></div>
         </div>
         <div id="canvasCounter"></div>
-   
-     
+
+
     <table width="100%">
     <tr>
         <td width="50%"><span id="share">OK TO SHARE</span></td>
@@ -85,7 +83,7 @@
     </table>
     <br>
     <hr class="hr">
-    <br>    
+    <br>
     <h3>Sweep SegWit Private Key</h3>
     <div id="sweepcont">
     <input type="password" class="form-control input-lg" placeholder="SegWit Private Key" id="wifprivatekey">
@@ -108,7 +106,7 @@
     Amount to Generate: <br>
     <input type="number" id="bulknum"><br>
     <button id="btnBulk" onClick="return bulkAddress();" class="btn btn-warning">Bulk Generate</button> <button class="btn btn-danger" id="clearBulk">Clear</button><br>
-    
+
     <br>
     <div id="bulkkeys" class="well well-lg"></div><br>
     <br>
@@ -119,19 +117,19 @@
     <p>Max Attempts: <input type="number" id="maxattempts" value="10000"><small>10,000 attempts will take about 2-3 minutes to generate.</small></p>
     <p>Phrase to match: <input type="text" id="vanityPhrase" placeholder="btc"> <small>not case sensitive</small></p>
     <button id="vanityBtn" class="btn btn-info">Start Searching</button>
-    
+
     <div id="vanityOut"></div>
     <br><br>
-    
+
     <a href="https://bitcoincore.org/en/segwit_adoption/"><span class="label label-default"><span id="wit">SEG</span>WIT</span></a>
     <a href="https://github.com/coinables/segwitaddress"><span class="label label-primary">OPEN SOURCE</span></a>
     <a href="https://github.com/bitcoinjs/bitcoinjs-lib"><span class="label label-success">BITCOINJS</span></a>
  <script src="js/bitcoinjs-lib-3.1.1.js"></script>
  <script src="js/metropy.js"></script>
  <script type="text/javascript" src="js/qrcode.js"></script>
- 
+
   <script>
-//functions used below are from github repo: https://github.com/bip32JP/bip32JP.github.io/tree/master/segwit  
+//functions used below are from github repo: https://github.com/bip32JP/bip32JP.github.io/tree/master/segwit
 //https://bip32jp.github.io/segwit
   function generateNewKeyPair(){
       var NETWORK = bitcoin.networks.bitcoin;
@@ -167,21 +165,21 @@
 
           canvas.addEventListener('mousemove', function(evt) {
             if(entropy.length < 8192){
-                var mousePos = getMousePos(canvas, evt);   
+                var mousePos = getMousePos(canvas, evt);
                 entropy += mousePos.x + mousePos.y;
                 entropyCalcBar = entropy.length / 8192;
                 entropyPercent = entropyCalcBar * 100;
                 entropyPercentFixed = entropyPercent.toFixed(0);
                 entropyBar = "width: "+entropyPercentFixed+"%";
                 document.getElementsByTagName('div')[2].setAttribute("style", entropyBar);
-                document.getElementById("canvasCounter").innerHTML = entropy.length+"/8192";   
+                document.getElementById("canvasCounter").innerHTML = entropy.length+"/8192";
             } else {
                 $("#entropyCanvas").css("display","none");
                 $("#entropywell").css("display","none");
                 $("#canvasCounter").html("");
                  me.addMouseEntropy(entropy, function(maddr, mpk){
                      document.getElementById("swaddr").innerHTML = "<br><div class='panel panel-primary'><div class='panel-heading'><h3 class='panel-title'>Segwit Address</h3></div><div class='panel-body'>" + maddr + "</div></div>";
-        
+
                     document.getElementById("qrcode").innerHTML = "";
                     new QRCode(document.getElementById("qrcode"), maddr);
 
@@ -191,13 +189,13 @@
                     new QRCode(document.getElementById("qrcodepk"), mpk);
                  entropy = "";
                  });
-            }               
-            
+            }
+
           }, false);
-        
-        
+
+
     }
-            
+
     function vanity(){
         //start create new adress loop with a max out at some point
         var maxout = $("#maxattempts").val(); //roughly 50-70 key pairs a second which is very slow but hey this is javascript
@@ -216,10 +214,10 @@
             console.log(addressTarget);
             var regtest = new RegExp(addressTarget, 'i');
             var comparePhrase = phrase.match(regtest);
-                        
+
             if(comparePhrase){
                 document.getElementById("swaddr").innerHTML = "<br><div class='panel panel-primary'><div class='panel-heading'><h3 class='panel-title'>Segwit Address</h3></div><div class='panel-body'>" + addr + "</div></div>";
-        
+
                 document.getElementById("qrcode").innerHTML = "";
                 new QRCode(document.getElementById("qrcode"), addr);
 
@@ -228,12 +226,12 @@
                 document.getElementById("qrcodepk").innerHTML = "";
                 new QRCode(document.getElementById("qrcodepk"), pkey);
                 document.body.scrollTop = document.documentElement.scrollTop = 0;
-                
+
                 break;
             }
         }
     }
-      
+
     function bulkAddress(){
         var keynum = document.getElementById("bulknum").value;
             if(keynum < 1001){
@@ -247,34 +245,34 @@
             } else {
                 alert("1000 is the max bro");
             }
-    }  
-      
+    }
+
     function clearBulk(){
         $("#bulkkeys").html("");
-    }  
-      
+    }
+
 function sweepKey() {
      var DOUBLE_TX = false
      var NETWORK = bitcoin.networks.bitcoin
      var API_DOMAIN = "https://api.smartbit.com.au"
      var EXPLORER_DOMAIN = "https://www.smartbit.com.au"
      var Buffer = null
-   
+
      var WIF = $("#wifprivatekey").val();
      WIF = WIF.trim();
-      
+
       if (WIF == "") {
         alert("The WIF Private key must be entered to send!");
         return;
       };
-      
+
       var toAddress = $("#toaddress").val();
       toAddress = toAddress.trim();
       if (toAddress == "") {
         alert("Please Enter Address to send to!");
         return;
-      }; 
-    
+      };
+
       var keyPair = bitcoin.ECPair.fromWIF(WIF, NETWORK);
       var pubKey = keyPair.getPublicKeyBuffer();
       var pubKeyHash = bitcoin.crypto.hash160(pubKey);
@@ -282,7 +280,7 @@ function sweepKey() {
       var redeemScriptHash = bitcoin.crypto.hash160(redeemScript);
       var scriptPubKey = bitcoin.script.scriptHash.output.encode(redeemScriptHash);
       var P2SHAddress = bitcoin.address.fromOutputScript(scriptPubKey, NETWORK);
-   
+
      console.log(P2SHAddress);
       var data
       $.ajax({
@@ -301,7 +299,7 @@ function sweepKey() {
           $("#inputdata").val(JSON.stringify(data, null, 2))
         }
       });
-         
+
       try {
         var keyPair = bitcoin.ECPair.fromWIF(WIF, NETWORK)
       } catch (e) {
@@ -363,7 +361,7 @@ function sweepKey() {
       }
       txb.addOutput(sendToScriptPubkey,
                     totalSatoshisMinusFee)
-      
+
       for (var i = 0; i < inputData.length; i++) {
         txb.sign(i, keyPair, redeemScript, null, inputData[i].satoshis)
       }
@@ -395,7 +393,7 @@ function sweepKey() {
                       parseInt(sendAmountMinusFees / 2))
         txb2.addOutput(sendToScriptPubkey,
                       parseInt(sendAmountMinusFees / 2))
-        
+
         txb2.sign(0, keyPair, null, null, secondTxInput.satoshis)
         var tx2 = txb2.build()
         var tx2_txid = tx2.getId()
@@ -435,41 +433,45 @@ function sweepKey() {
         tx2_txid + "</a><br>" +
         "Raw Transaction:<br><textarea cols=\"150\" rows=\"10\">" +
         tx2_raw + "</textarea>")
-      );    
-      
-}
-      
+      );
 
-         
+}
+
+
+
 function getByteCountSegwitP2SH(inputCount,outputCount,isMultisig,m,n) {
   var inputSize = isMultisig ? ((73 * m) + (34 * n) + 6 + (76 * 4)) : 108 + (64 * 4)
   var outputSize = 34 * 4
   var estimatedWeight = inputSize * inputCount + outputSize * outputCount + 10 * 4
   return Math.ceil(estimatedWeight / 4)
-}  
-      
-      
-    
+}
+
+
+
 $(document).ready( function() {
       $("#sweepkey").on('click', sweepKey);
       $("#vanityBtn").on('click', vanity);
       $("#clearBulk").on('click', clearBulk);
       Buffer = bitcoin.script.compile([]).constructor;
-      $.ajax({
-        async: true,
-        type: "GET",
-        url: "https://bws.bitpay.com/bws/api/v2/feelevels",
-        success: function(result) {
-          var satPerByte = Math.ceil(result.filter(function(item){ return item.level == "superEconomy" })[0].feePerKb / 1000)
-          var calcSat = satPerByte / 2;
-          $("#satperbyte").val(calcSat.toFixed(0));
-        }
-      });
+      /*
+       * bitpay feerecommendations deactivated for offline usage
+
+            $.ajax({
+              async: true,
+              type: "GET",
+              url: "https://bws.bitpay.com/bws/api/v2/feelevels",
+              success: function(result) {
+                var satPerByte = Math.ceil(result.filter(function(item){ return item.level == "superEconomy" })[0].feePerKb / 1000)
+                var calcSat = satPerByte / 2;
+                $("#satperbyte").val(calcSat.toFixed(0));
+              }
+            });
+      */
 });
-     
-  
+
+
   </script>
-    
+
 <script>
 function turnOnWC(){
     $("#qrcam").css("display","block");
@@ -484,15 +486,15 @@ function turnOnWC(){
              $("#qrcam").css("display","none");
             $("#qrnotify").css("display","block");
         }
-    });    
+    });
 
     Instascan.Camera.getCameras().then(function(cams){
         qr.start(cams[0]);
     }).catch(function(err){
         console.log(err);
-    });    
-}   
-    
+    });
+}
+
 function turnOnWC2(){
 $("#qrcam").css("display","block");
 var qr = new Instascan.Scanner({
@@ -506,22 +508,22 @@ qr.addListener('scan', function(data){
          $("#qrcam").css("display","none");
         $("#qrnotify2").css("display","block");
     }
-});    
+});
 
 Instascan.Camera.getCameras().then(function(cams){
     qr.start(cams[0]);
 }).catch(function(err){
     console.log(err);
-});    
-}   
+});
+}
 
-</script>    
-    
+</script>
+
 <script>
 //redirect https if not local
 if (window.location.host.indexOf('github.io') > -1 && window.location.protocol != "https:"){
     window.location.protocol = "https";
 }
-</script>    
+</script>
 </body>
 </html>
